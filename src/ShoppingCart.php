@@ -13,10 +13,29 @@ class ShoppingCart
 
     /**
      * @param string $productName
+     * @param int $quantity
+     * @param float $price
+     */
+    public function addProductWithPrice($productName, $quantity, $price)
+    {
+        $this->addProduct($productName, $quantity, $price);
+    }
+
+    /**
+     * @param string $productName
+     * @param int $quantity
+     */
+    public function addProductWithoutPrice($productName, $quantity)
+    {
+        $this->addProduct($productName, $quantity);
+    }
+
+    /**
+     * @param string $productName
      * @param float|null $price
      * @param int $quantity
      */
-    public function addProduct($productName, $quantity = 1, $price = null)
+    protected function addProduct($productName, $quantity = 1, $price = null)
     {
         if (isset($this->productItems[$productName])) {
             $this->productItems[$productName]->addQuantity($quantity);

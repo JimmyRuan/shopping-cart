@@ -15,7 +15,7 @@ final class ShoppingCartTest extends TestCase
     {
         $productName = 'Dove Soap';
         $shoppingCart = new ShoppingCart();
-        $shoppingCart->addProduct($productName, 1, $originalPrice);
+        $shoppingCart->addProductWithPrice($productName, 1, $originalPrice);
 
         $this->assertEquals($normalizedPrice, $shoppingCart->totalPriceWithoutTax());
         $this->assertShoppingCartItems($shoppingCart->getItems(), [
@@ -33,8 +33,8 @@ final class ShoppingCartTest extends TestCase
         $productName = 'Dove Soap';
         $productPrice = 39.99;
         $shoppingCart = new ShoppingCart();
-        $shoppingCart->addProduct($productName, 5, $productPrice);
-        $shoppingCart->addProduct($productName, 3);
+        $shoppingCart->addProductWithPrice($productName, 5, $productPrice);
+        $shoppingCart->addProductWithoutPrice($productName, 3);
 
         $this->assertEquals(319.92, $shoppingCart->totalPriceWithoutTax());
         $this->assertShoppingCartItems($shoppingCart->getItems(), [
@@ -50,8 +50,8 @@ final class ShoppingCartTest extends TestCase
     public function testAddMultipleProductsWithTax()
     {
         $shoppingCart = new ShoppingCart();
-        $shoppingCart->addProduct('Dove Soap', 2, 39.99);
-        $shoppingCart->addProduct('Axe Deos', 2, 99.99);
+        $shoppingCart->addProductWithPrice('Dove Soap', 2, 39.99);
+        $shoppingCart->addProductWithPrice('Axe Deos', 2, 99.99);
 
         $this->assertEquals(314.96, $shoppingCart->totalPriceWitTax());
         $this->assertEquals(35, $shoppingCart->getTax());

@@ -17,7 +17,7 @@ final class ShoppingCartTest extends TestCase
         $shoppingCart = new ShoppingCart();
         $shoppingCart->addProduct($productName, 1, $originalPrice);
 
-        $this->assertEquals($normalizedPrice, $shoppingCart->totalPrice());
+        $this->assertEquals($normalizedPrice, $shoppingCart->totalPriceWithoutTax());
         $this->assertShoppingCartItems($shoppingCart->getItems(), [
             [
                 'name' => $productName,
@@ -36,13 +36,37 @@ final class ShoppingCartTest extends TestCase
         $shoppingCart->addProduct($productName, 5, $productPrice);
         $shoppingCart->addProduct($productName, 3);
 
-        $this->assertEquals(319.92, $shoppingCart->totalPrice());
+        $this->assertEquals(319.92, $shoppingCart->totalPriceWithoutTax());
         $this->assertShoppingCartItems($shoppingCart->getItems(), [
             [
                 'name' => $productName,
                 'price' => $productPrice,
                 'quantity' => 8,
                 'total' => 319.92,
+            ],
+        ]);
+    }
+
+    public function testAddMultipleProductsWithTax()
+    {
+        $shoppingCart = new ShoppingCart();
+        $shoppingCart->addProduct('Dove Soap', 2, 39.99);
+        $shoppingCart->addProduct('Axe Deos', 2, 99.99);
+
+        $this->assertEquals(314.96, $shoppingCart->totalPriceWitTax());
+        $this->assertEquals(35, $shoppingCart->getTax());
+        $this->assertShoppingCartItems($shoppingCart->getItems(), [
+            [
+                'name' => 'Dove Soap',
+                'price' => 39.99,
+                'quantity' => 2,
+                'total' => round(39.99 * 2, 2),
+            ],
+            [
+                'name' => 'Axe Deos',
+                'price' => 99.99,
+                'quantity' => 2,
+                'total' => round(99.99 * 2, 2),
             ],
         ]);
     }
@@ -63,6 +87,9 @@ final class ShoppingCartTest extends TestCase
         }
     }
 
+    /**
+     * @return float[][]
+     */
     public function singleProductProvider()
     {
         return [

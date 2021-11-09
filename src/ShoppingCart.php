@@ -9,9 +9,7 @@ class ShoppingCart
      */
     protected $productItems = [];
 
-    public function __construct()
-    {
-    }
+    public const PRODUCT_TAX_RATE = 0.125;
 
     /**
      * @param string $productName
@@ -37,7 +35,18 @@ class ShoppingCart
         return $this->productItems;
     }
 
-    public function totalPrice()
+    /**
+     * @return float
+     */
+    public function getTax()
+    {
+        return round($this->totalPriceWithoutTax() * self::PRODUCT_TAX_RATE, 2);
+    }
+
+    /**
+     * @return float
+     */
+    public function totalPriceWithoutTax()
     {
         $total = 0;
         foreach ($this->productItems as $productItem) {
@@ -45,5 +54,13 @@ class ShoppingCart
         }
 
         return $total;
+    }
+
+    /**
+     * @return float
+     */
+    public function totalPriceWitTax()
+    {
+        return $this->totalPriceWithoutTax() + $this->getTax();
     }
 }

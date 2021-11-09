@@ -6,23 +6,28 @@ use PHPUnit\Framework\TestCase;
 
 final class ShoppingCartTest extends TestCase
 {
-    public function testAddSingleProduct()
+    /**
+     * @dataProvider singleProductProvider
+     * @param float $originalPrice
+     * @param float $normalizedPrice
+     */
+    public function testAddSingleProduct($originalPrice, $normalizedPrice)
     {
         $productName = 'Dove Soap';
-        $productPrice = 39.99;
         $shoppingCart = new ShoppingCart();
-        $shoppingCart->addProduct($productName, $productPrice);
+        $shoppingCart->addProduct($productName, $originalPrice);
         $cartItems = $shoppingCart->getItems();
 
-        $this->assertEquals(39.99, $shoppingCart->totalPrice());
+        $this->assertEquals($normalizedPrice, $shoppingCart->totalPrice());
         $this->assertShoppingCartItems($cartItems, [
             [
                 'name' => $productName,
-                'price' => $productPrice,
-                'total' => 39.99,
+                'price' => $normalizedPrice,
+                'total' => $normalizedPrice,
             ],
         ]);
     }
+
 
     /**
      * @param ShoppingCartItem[] $expectedItems
@@ -37,5 +42,14 @@ final class ShoppingCartTest extends TestCase
             $this->assertEquals($expectedItem->getTotal(), $actualItems[$index]['total']);
             $index = $index + 1;
         }
+    }
+
+    public function singleProductProvider()
+    {
+        return [
+            [39.99, 39.99],
+            [0.565, 0.57],
+            [0.5649, 0.56]
+        ];
     }
 }

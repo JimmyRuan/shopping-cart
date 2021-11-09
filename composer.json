@@ -1,0 +1,19 @@
+{
+  "name": "jimmyruan/shopping-cart",
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "require-dev": {
+    "php": "^7.3|^8.0",
+    "friendsofphp/php-cs-fixer": "^3.0",
+    "phpstan/phpstan": "^0.12.91",
+    "phpunit/phpunit": "^9"
+  }
+}

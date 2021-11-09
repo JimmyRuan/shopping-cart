@@ -15,15 +15,17 @@ class ShoppingCart
 
     /**
      * @param string $productName
-     * @param float $price
+     * @param float|null $price
      * @param int $quantity
      */
-    public function addProduct($productName, $price, $quantity = 1)
+    public function addProduct($productName, $quantity = 1, $price = null)
     {
         if (isset($this->productItems[$productName])) {
             $this->productItems[$productName]->addQuantity($quantity);
         } else {
-            $this->productItems[$productName] = new ShoppingCartItem($productName, $price, $quantity);
+            if ($price !== null) {
+                $this->productItems[$productName] = new ShoppingCartItem($productName, $price, $quantity);
+            }
         }
     }
 

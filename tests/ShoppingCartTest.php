@@ -13,7 +13,7 @@ final class ShoppingCartTest extends TestCase
      */
     public function testAddSingleProduct($originalPrice, $normalizedPrice)
     {
-        $productName = 'Dove Soap';
+        $productName = ShoppingCartItem::DOVE_SOAP;
         $shoppingCart = new ShoppingCart();
         $shoppingCart->addProductWithPrice($productName, 1, $originalPrice);
 
@@ -30,7 +30,7 @@ final class ShoppingCartTest extends TestCase
 
     public function testAddMultipleProducts()
     {
-        $productName = 'Dove Soap';
+        $productName = ShoppingCartItem::DOVE_SOAP;
         $productPrice = 39.99;
         $shoppingCart = new ShoppingCart();
         $shoppingCart->addProductWithPrice($productName, 5, $productPrice);
@@ -50,20 +50,20 @@ final class ShoppingCartTest extends TestCase
     public function testAddMultipleProductsWithTax()
     {
         $shoppingCart = new ShoppingCart();
-        $shoppingCart->addProductWithPrice('Dove Soap', 2, 39.99);
-        $shoppingCart->addProductWithPrice('Axe Deos', 2, 99.99);
+        $shoppingCart->addProductWithPrice(ShoppingCartItem::DOVE_SOAP, 2, 39.99);
+        $shoppingCart->addProductWithPrice(ShoppingCartItem::AXE_DEOS, 2, 99.99);
 
         $this->assertEquals(314.96, $shoppingCart->totalPriceWitTax());
         $this->assertEquals(35, $shoppingCart->getTax());
         $this->assertShoppingCartItems($shoppingCart->getItems(), [
             [
-                'name' => 'Dove Soap',
+                'name' => ShoppingCartItem::DOVE_SOAP,
                 'price' => 39.99,
                 'quantity' => 2,
                 'total' => round(39.99 * 2, 2),
             ],
             [
-                'name' => 'Axe Deos',
+                'name' => ShoppingCartItem::AXE_DEOS,
                 'price' => 99.99,
                 'quantity' => 2,
                 'total' => round(99.99 * 2, 2),
@@ -74,20 +74,20 @@ final class ShoppingCartTest extends TestCase
     public function testRemoveItemFromCart()
     {
         $shoppingCart = new ShoppingCart();
-        $shoppingCart->addProductWithPrice('Dove Soap', 4, 39.99);
-        $shoppingCart->addProductWithPrice('Axe Deos', 2, 99.99);
+        $shoppingCart->addProductWithPrice(ShoppingCartItem::DOVE_SOAP, 4, 39.99);
+        $shoppingCart->addProductWithPrice(ShoppingCartItem::AXE_DEOS, 2, 99.99);
 
-        $shoppingCart->removeProduct('Dove Soap', 1);
+        $shoppingCart->removeProduct(ShoppingCartItem::DOVE_SOAP, 1);
 
         $this->assertShoppingCartItems($shoppingCart->getItems(), [
             [
-                'name' => 'Dove Soap',
+                'name' => ShoppingCartItem::DOVE_SOAP,
                 'price' => 39.99,
                 'quantity' => 3,
                 'total' => round(39.99 * 3, 2),
             ],
             [
-                'name' => 'Axe Deos',
+                'name' => ShoppingCartItem::AXE_DEOS,
                 'price' => 99.99,
                 'quantity' => 2,
                 'total' => round(99.99 * 2, 2),

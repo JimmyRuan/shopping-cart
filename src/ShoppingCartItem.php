@@ -4,6 +4,9 @@ namespace App;
 
 class ShoppingCartItem
 {
+    const DOVE_SOAP = 'Dove Soap';
+    const AXE_DEOS = 'Axe Deos';
+
     /**
      * @var float
      */

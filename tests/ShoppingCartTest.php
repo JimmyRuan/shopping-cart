@@ -125,6 +125,30 @@ class ShoppingCartTest extends TestCase
         ]);
     }
 
+    public function testTaxIsNotAddedForDiscountedItemsInTotal()
+    {
+        $shoppingCart = new ShoppingCart();
+        $shoppingCart->addProductWithPrice(ShoppingCartItem::DOVE_SOAP, 3, 39.99, 3);
+        $shoppingCart->addProductWithPrice(ShoppingCartItem::AXE_DEOS, 3, 99.99);
+
+        $this->assertShoppingCartItems($shoppingCart->getItems(), [
+            [
+                'name' => ShoppingCartItem::DOVE_SOAP,
+                'price' => 39.99,
+                'quantity' => 3,
+                'total' => round(39.99 * 2, 2),
+            ],
+            [
+                'name' => ShoppingCartItem::AXE_DEOS,
+                'price' => 99.99,
+                'quantity' => 3,
+                'total' => round(99.99 * 3, 2),
+            ]]);
+
+        $this->assertEquals(427.44, $shoppingCart->totalPriceWitTax());
+        $this->assertEquals(47.49, $shoppingCart->getTax());
+    }
+
     /**
      * @param ShoppingCartItem[] $expectedItems
      * @param array $actualItems

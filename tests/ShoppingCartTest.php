@@ -71,6 +71,30 @@ final class ShoppingCartTest extends TestCase
         ]);
     }
 
+    public function testRemoveItemFromCart()
+    {
+        $shoppingCart = new ShoppingCart();
+        $shoppingCart->addProductWithPrice('Dove Soap', 4, 39.99);
+        $shoppingCart->addProductWithPrice('Axe Deos', 2, 99.99);
+
+        $shoppingCart->removeProduct('Dove Soap', 1);
+
+        $this->assertShoppingCartItems($shoppingCart->getItems(), [
+            [
+                'name' => 'Dove Soap',
+                'price' => 39.99,
+                'quantity' => 3,
+                'total' => round(39.99 * 3, 2),
+            ],
+            [
+                'name' => 'Axe Deos',
+                'price' => 99.99,
+                'quantity' => 2,
+                'total' => round(99.99 * 2, 2),
+            ],
+        ]);
+    }
+
     /**
      * @param ShoppingCartItem[] $expectedItems
      * @param array $actualItems

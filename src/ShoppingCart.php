@@ -32,6 +32,17 @@ class ShoppingCart
 
     /**
      * @param string $productName
+     * @param int $quantity
+     */
+    public function removeProduct($productName, $quantity)
+    {
+        if($quantity >=1 && isset($this->productItems[$productName])){
+            $this->productItems[$productName] = $this->productItems[$productName]->removeQuantity($quantity);
+        }
+    }
+
+    /**
+     * @param string $productName
      * @param float|null $price
      * @param int $quantity
      */
@@ -45,6 +56,7 @@ class ShoppingCart
             }
         }
     }
+
 
     /**
      * @return ShoppingCartItem[]

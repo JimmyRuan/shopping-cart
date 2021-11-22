@@ -62,9 +62,23 @@ class ShoppingCartItem
     public function addQuantity($quantity)
     {
         if ($quantity >= 1) {
-            $this->quantity = $this->quantity + $quantity;
+            $this->changeQuantity($quantity);
         }
+        return $this;
     }
+
+    /**
+     * @param int $quantity
+     */
+    public function removeQuantity($quantity)
+    {
+        if ($quantity >= 1) {
+            $this->changeQuantity(-1 * $quantity);
+        }
+        return $this;
+    }
+
+
 
     /**
      * @return float
@@ -80,5 +94,13 @@ class ShoppingCartItem
     protected function setPrice($price)
     {
         $this->price = round($price, 2);
+    }
+
+    /**
+     * @param $changedQuantity
+     */
+    protected function changeQuantity($changedQuantity)
+    {
+        $this->quantity = $this->quantity + $changedQuantity;
     }
 }

@@ -4,7 +4,7 @@ use App\ShoppingCart;
 use App\ShoppingCartItem;
 use PHPUnit\Framework\TestCase;
 
-final class ShoppingCartTest extends TestCase
+class ShoppingCartTest extends TestCase
 {
     /**
      * @dataProvider singleProductProvider
@@ -93,6 +93,23 @@ final class ShoppingCartTest extends TestCase
                 'total' => round(99.99 * 2, 2),
             ],
         ]);
+    }
+
+    public function testDoveSoupDiscountOnThreeAndMoreItems()
+    {
+        $shoppingCart = new ShoppingCart();
+        $shoppingCart->addProductWithPrice(ShoppingCartItem::DOVE_SOAP, 3, 39.99, 3);
+
+        $this->assertShoppingCartItems($shoppingCart->getItems(), [
+            [
+                'name' => ShoppingCartItem::DOVE_SOAP,
+                'price' => 39.99,
+                'quantity' => 3,
+                'total' => round(39.99 * 2, 2),
+            ],
+        ]);
+
+
     }
 
     /**

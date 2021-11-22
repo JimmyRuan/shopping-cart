@@ -16,9 +16,9 @@ class ShoppingCart
      * @param int $quantity
      * @param float $price
      */
-    public function addProductWithPrice($productName, $quantity, $price)
+    public function addProductWithPrice($productName, $quantity, $price, $minimumDiscountUnits=0)
     {
-        $this->addProduct($productName, $quantity, $price);
+        $this->addProduct($productName, $quantity, $price, $minimumDiscountUnits);
     }
 
     /**
@@ -43,16 +43,17 @@ class ShoppingCart
 
     /**
      * @param string $productName
-     * @param float|null $price
      * @param int $quantity
+     * @param float|null $price
+     * @param int $minimumDiscountUnits
      */
-    protected function addProduct($productName, $quantity = 1, $price = null)
+    protected function addProduct($productName, $quantity = 1, $price = null, $minimumDiscountUnits=0)
     {
         if (isset($this->productItems[$productName])) {
             $this->productItems[$productName]->addQuantity($quantity);
         } else {
             if ($price !== null) {
-                $this->productItems[$productName] = new ShoppingCartItem($productName, $price, $quantity);
+                $this->productItems[$productName] = new ShoppingCartItem($productName, $price, $quantity, $minimumDiscountUnits);
             }
         }
     }

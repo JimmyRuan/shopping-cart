@@ -22,17 +22,26 @@ class ShoppingCartItem
      */
     protected $productName;
 
+    protected $minimumDiscountUnits;
+
     /**
      * ShoppingCartItem constructor.
      * @param string $productName
      * @param float $price
      * @param int $quantity
+     * @param int $minimumDiscountUnits
      */
-    public function __construct($productName, $price, $quantity)
+    public function __construct($productName, $price, $quantity, $minimumDiscountUnits=0)
     {
         $this->productName = $productName;
         $this->quantity = $quantity;
         $this->setPrice($price);
+
+        if($minimumDiscountUnits == 3){
+            echo "I am at 41";
+        }
+
+        $this->minimumDiscountUnits = $minimumDiscountUnits;
     }
 
     /**
@@ -88,7 +97,15 @@ class ShoppingCartItem
      */
     public function getTotal()
     {
-        return round($this->price * $this->quantity, 2);
+        $amountBeforeDiscount = round($this->price * $this->quantity, 2);
+
+        $discountedAmount = 0;
+        if($this->minimumDiscountUnits > 1){
+            echo "do I get a discount?";
+            $discountedAmount = ($this->quantity / $this->minimumDiscountUnits) * $this->price;
+        }
+
+        return $amountBeforeDiscount - $discountedAmount;
     }
 
     /**

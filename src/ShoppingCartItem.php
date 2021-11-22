@@ -37,10 +37,6 @@ class ShoppingCartItem
         $this->quantity = $quantity;
         $this->setPrice($price);
 
-        if($minimumDiscountUnits == 3){
-            echo "I am at 41";
-        }
-
         $this->minimumDiscountUnits = $minimumDiscountUnits;
     }
 
@@ -100,8 +96,7 @@ class ShoppingCartItem
         $amountBeforeDiscount = round($this->price * $this->quantity, 2);
 
         $discountedAmount = 0;
-        if($this->minimumDiscountUnits > 1){
-            echo "do I get a discount?";
+        if($this->minimumDiscountUnits <= $this->quantity && $this->minimumDiscountUnits > 1){
             $discountedAmount = ($this->quantity / $this->minimumDiscountUnits) * $this->price;
         }
 

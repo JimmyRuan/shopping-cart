@@ -108,8 +108,21 @@ class ShoppingCartTest extends TestCase
                 'total' => round(39.99 * 2, 2),
             ],
         ]);
+    }
 
+    public function testDoveSoupWithoutDiscountOnTwoItems()
+    {
+        $shoppingCart = new ShoppingCart();
+        $shoppingCart->addProductWithPrice(ShoppingCartItem::DOVE_SOAP, 2, 39.99, 3);
 
+        $this->assertShoppingCartItems($shoppingCart->getItems(), [
+            [
+                'name' => ShoppingCartItem::DOVE_SOAP,
+                'price' => 39.99,
+                'quantity' => 2,
+                'total' => round(39.99 * 2, 2),
+            ],
+        ]);
     }
 
     /**
